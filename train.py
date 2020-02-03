@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 import h5py
 import os
@@ -14,7 +15,7 @@ def train(model,datapath, labelpath,  epochs, batch_size, lr, name='dinh'):
     model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer=ada)
     
     ## train , valid split
-    nfiles = np.arange(len(os.listdir(datapath)))
+    nfiles = np.arange(len(os.listdir(datapath))-1)
     train_idx , valid_idx = train_test_split(nfiles,test_size=0.2,random_state=2020)
     
     ## load data

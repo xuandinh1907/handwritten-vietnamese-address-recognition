@@ -28,8 +28,11 @@ class TextImageGenerator:
         self.idxs = idxs
         self.downsample_factor = downsample_factor
         self.img_dirpath = img_dirpath                  # image dir path
-        self.labels= json.load(open(labels_path,'r'),encoding="utf8") if labels_path != None else None
-        self.img_dir = sorted(os.listdir(self.img_dirpath))     # images list
+        self.labels= json.load(open(labels_path,'rb'),encoding="utf8") if labels_path != None else None
+        self.img_dir = []
+        for img_file in os.listdir(self.img_dirpath) :     # images list
+            if img_file != 'labels.json' and '.ipynb' not in img_file :
+                self.img_dir.append(img_file)
         random.shuffle(self.img_dir)
         if self.idxs is not None:
             self.img_dir = [self.img_dir[idx] for idx in self.idxs]
@@ -53,16 +56,16 @@ class TextImageGenerator:
     def build_data(self):
         print(self.n, " Image Loading start... ", self.img_dirpath)
         for i, img_file in enumerate(self.img_dir):
-            if img_file != 'labels.json' :
-                img = image.load_img(self.img_dirpath + img_file, target_size=SIZE[::-1], interpolation='bicubic')
-                img = image.img_to_array(img)
-                img = preprocess_input(img)
-                self.imgs[i] = img
-                if self.labels != None: 
-                    self.texts.append(self.labels[img_file][:MAX_LEN])
-                else:
-                    #valid mode
-                    self.texts.append(img_file)
+            
+            img = image.load_img(self.img_dirpath + img_file, target_size=SIZE[::-1], interpolation='bicubic')
+            img = image.img_to_array(img)
+            img = preprocess_input(img)
+            self.imgs[i] = img
+            if self.labels != None: 
+                self.texts.append(self.labels[img_file][:MAX_LEN])
+            else:
+                #valid mode
+                self.texts.append(img_file)
         print("Image Loading finish...")
 
     def next_sample(self):

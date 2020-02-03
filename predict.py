@@ -46,7 +46,7 @@ def display_ground_truth_and_predict(weight_path,test_folder,test_label_path) :
     '''display in pair - form (original text , predicted tex)'''
     test_data , test_generator = build_test_data(test_folder)
     best_model = load_model(weight_path)
-    test_labels = json.load(open(test_label_path,'r'),encoding="utf8")
+    test_labels = json.load(open(test_label_path,'rb'),encoding="utf8")
     predict , ground_truth = making_prediction(best_model,test_data,test_generator,test_labels)
     for i in range(len(predict)) :
         print("original_text = ",ground_truth[i])
@@ -62,4 +62,7 @@ if __name__=='__main__':
     args = parser.parse_args()
     
 
-    display_ground_truth_and_predict(args.weight_path,args.test_folder,args.test_label_path)
+    cer , wer , ser = display_ground_truth_and_predict(args.weight_path,args.test_folder,args.test_label_path)
+    print('CER : ',cer)
+    print('WER : ',wer)
+    print('SER : ',ser)
