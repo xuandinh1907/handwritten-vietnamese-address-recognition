@@ -1,0 +1,6 @@
+tensorflow==2.0.1
+numpy
+opencv-python
+sklearn
+Pillow
+editdistance

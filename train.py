@@ -43,7 +43,7 @@ if __name__=='__main__':
     parser.add_argument("--train", default=data_path, type=str)
     parser.add_argument("--label", default=label_path, type=str)
 
-    parser.add_argument("--epochs", default=10, type=int)
+    parser.add_argument("--epochs", default=1, type=int)
     parser.add_argument('--batch_size', default=32, type=int)
     parser.add_argument('--lr', default=0.001, type=float)
     parser.add_argument('--name', default='dinh_nana', type=str)
